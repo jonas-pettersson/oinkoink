@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 # Authentication
 
 LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'feed'
 
 
 # Application definition
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
 
     'apps.core',
     'apps.oinkerprofile',
+    'apps.feed',
 ]
 
 MIDDLEWARE = [
