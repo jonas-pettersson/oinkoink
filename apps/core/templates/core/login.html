@@ -5,22 +5,22 @@
 <div class="w3-container w3-white w3-margin w3-padding-large">
 
     {% if form.errors %}
-    {% for error_tag, error_message  in form.errors.items %}
-    {% if error_tag == "__all__" %}
-    <div class="w3-panel w3-red">
-        <p>{{ error_message }}</p>
-    </div>
-    {% endif %}
-    {% endfor %}
+        {% for error_tag, error_message  in form.errors.items %}
+            {% if error_tag == "__all__" %}
+                <div class="w3-panel w3-red">
+                    <p>{{ error_message }}</p>
+                </div>
+            {% endif %}
+        {% endfor %}
     {% endif %}
 
     {% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-        please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
+        {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+        {% else %}
+        <p>Please login to see this page.</p>
+        {% endif %}
     {% endif %}
 
     {% if next %}
