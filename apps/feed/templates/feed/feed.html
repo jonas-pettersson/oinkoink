@@ -1,5 +1,7 @@
 {% extends 'core/base.html' %}
 
+{% load humanize %}
+
 {% block content %}
 <div class="w3-container" id="feedapp">
   <h1>My Feed</h1>
@@ -19,6 +21,18 @@
   </div>
   <!-- <div class="w3-container"> -->
     <ul class="w3-ul w3-card-4">
+      {% for oink in oinks %}
+        <li class="w3-bar">
+          <div class="w3-bar-item">
+            <span class="w3-large">{{ oink.created_by.username }}</span><br>
+            <span >{{ oink.body }}</span><br>
+            <span class="w3-small">{{ oink.created_at|naturaltime }}</span>
+          </div>
+        </li>
+      {% endfor %}
+
+
+
       <li class="w3-bar" v-for="oink in oinks">
         <div class="w3-bar-item">
           <span class="w3-large">[[ oink.oinker ]]</span><br>
@@ -56,6 +70,22 @@
           };
 
           this.oinks.unshift(oink);
+
+          fetch('/api/add_oink/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify(oink)
+          })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         }
 
         this.body = '';
