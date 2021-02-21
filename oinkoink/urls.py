@@ -4,6 +4,7 @@ from django.contrib.auth import views
 
 from apps.core.views import frontpage, signup
 from apps.feed.views import feed, search
+from apps.oinkerprofile.views import oinkerprofile
 
 from apps.feed.api import api_add_oink
 
@@ -17,6 +18,7 @@ urlpatterns = [
 
     path('feed/', feed, name='feed'),
     path('search/', search, name='search'),
+    path('u/<str:username>/', oinkerprofile, name='oinkerprofile'),
 
     path('api/add_oink/', api_add_oink, name='api_add_oink'),
 
