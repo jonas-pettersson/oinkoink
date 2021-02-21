@@ -3,7 +3,7 @@ from django.urls import path
 from django.contrib.auth import views
 
 from apps.core.views import frontpage, signup
-from apps.feed.views import feed
+from apps.feed.views import feed, search
 
 from apps.feed.api import api_add_oink
 
@@ -16,6 +16,7 @@ urlpatterns = [
          views.PasswordResetView.as_view(template_name='core/password_reset.html'), name='password_reset'),
 
     path('feed/', feed, name='feed'),
+    path('search/', search, name='search'),
 
     path('api/add_oink/', api_add_oink, name='api_add_oink'),
 

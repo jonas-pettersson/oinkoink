@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="w3-container">
+  <h1>Search</h1>
+  <p>Search term: "{{ query }}"</p>
+  <hr>
+  <div class="w3-container w3-card-4 w3-light-grey">
+    <form method="get" action="{% url 'search' %}">
+        <fieldset class="form-group w3-border-0">
+          <ul class="w3-ul">
+            <li>
+                <input type="text" name="query" id="query" value="{{ query }}">
+            </li>
+            <li>
+              <button class="w3-button w3-green">Search</button>
+            </li>
+          </ul>
+        </fieldset>
+    </form>
+  </div>
+
+  <div>
+    <ul class="w3-ul w3-card-4">
+      {% for oinker in oinkers %}
+        <li class="w3-bar">
+          <div class="w3-bar-item">
+            <span >{{ oinker.username }}</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock content %}

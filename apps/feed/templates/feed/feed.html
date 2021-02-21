@@ -19,7 +19,7 @@
         </fieldset>
     </form>
   </div>
-  <!-- <div class="w3-container"> -->
+  <div>
     <ul class="w3-ul w3-card-4">
       {% for oink in oinks %}
         <li class="w3-bar">
@@ -30,9 +30,6 @@
           </div>
         </li>
       {% endfor %}
-
-
-
       <li class="w3-bar" v-for="oink in oinks">
         <div class="w3-bar-item">
           <span class="w3-large">[[ oink.oinker ]]</span><br>
@@ -41,7 +38,7 @@
         </div>
       </li>
     </ul>
-  <!-- </div> -->
+  </div>
 </div>
 {% endblock content %}
 
