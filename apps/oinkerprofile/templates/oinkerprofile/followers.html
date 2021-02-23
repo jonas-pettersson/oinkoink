@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+<div class="w3-container">
+    <h1>Followers</h1>
+    <div class="w3-container w3-card-4 w3-light-grey">
+        <h2>{{ user.username }} </h2>
+        <p>Num: {{ user.oinkerprofile.followed_by.count }} </p>
+    </div>
+    <div class="w3-bar-block w3-card-4">
+        {% for oinker in user.oinkerprofile.followed_by.all %}
+            <a class="w3-bar-item w3-button w3-large" href="{% url 'oinkerprofile' oinker.user.username %}">{{ oinker.user.username }}</a>
+        {% empty %}
+            {% if request.user == user %}
+                <p class="w3-bar-item w3-large">Sorry, you don't have any followers!</p>
+            {% else %}
+                <p class="w3-bar-item w3-large">{{ user.username}} doesn't have any followers!</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

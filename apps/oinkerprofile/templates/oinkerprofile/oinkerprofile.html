@@ -7,7 +7,7 @@
   <h1>Profile</h1>
   <div class="w3-container w3-card-4 w3-light-grey">
     <h2>{{ user.username }} </h2>
-    <p>Followers: {{ user.oinkerprofile.followed_by.count }} </p>
+    <p><a href="{% url 'followers' user.username %}">Followers: {{ user.oinkerprofile.followed_by.count }}</a></p>
     <p>Follows: {{ user.oinkerprofile.follows.count }} </p>
     {% if user != request.user %}
       {% if request.user.oinkerprofile in user.oinkerprofile.followed_by.all %}

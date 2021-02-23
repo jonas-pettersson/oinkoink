@@ -6,11 +6,7 @@ from django.contrib.auth.decorators import login_required
 def oinkerprofile(request, username):
     user = get_object_or_404(User, username=username)
 
-    context = {
-        'user': user
-    }
-
-    return render(request, 'oinkerprofile/oinkerprofile.html', context)
+    return render(request, 'oinkerprofile/oinkerprofile.html', {'user': user})
 
 
 @login_required
@@ -29,3 +25,9 @@ def unfollow_oinker(request, username):
     request.user.oinkerprofile.follows.remove(user.oinkerprofile)
 
     return redirect('oinkerprofile', username=username)
+
+
+def followers(request, username):
+    user = get_object_or_404(User, username=username)
+
+    return render(request, 'oinkerprofile/followers.html', {'user': user})
