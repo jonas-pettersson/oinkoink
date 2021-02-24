@@ -4,7 +4,7 @@ from django.contrib.auth import views
 
 from apps.core.views import frontpage, signup
 from apps.feed.views import feed, search
-from apps.oinkerprofile.views import oinkerprofile, follow_oinker, unfollow_oinker, followers
+from apps.oinkerprofile.views import oinkerprofile, follow_oinker, unfollow_oinker, followers, follows
 
 from apps.feed.api import api_add_oink
 
@@ -22,6 +22,7 @@ urlpatterns = [
     path('u/<str:username>/follow/', follow_oinker, name='follow_oinker'),
     path('u/<str:username>/unfollow/', unfollow_oinker, name='unfollow_oinker'),
     path('u/<str:username>/followers/', followers, name='followers'),
+    path('u/<str:username>/follows/', follows, name='follows'),
 
     path('api/add_oink/', api_add_oink, name='api_add_oink'),
 

@@ -8,7 +8,7 @@
   <div class="w3-container w3-card-4 w3-light-grey">
     <h2>{{ user.username }} </h2>
     <p><a href="{% url 'followers' user.username %}">Followers: {{ user.oinkerprofile.followed_by.count }}</a></p>
-    <p>Follows: {{ user.oinkerprofile.follows.count }} </p>
+    <p><a href="{% url 'follows' user.username %}">Follows: {{ user.oinkerprofile.follows.count }}</a></p>
     {% if user != request.user %}
       {% if request.user.oinkerprofile in user.oinkerprofile.followed_by.all %}
         <a href="{% url 'unfollow_oinker' user.username %}" class="w3-button w3-red w3-margin">Unfollow</a>
