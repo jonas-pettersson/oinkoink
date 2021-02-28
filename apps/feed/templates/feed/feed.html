@@ -21,8 +21,23 @@
   </div>
   <div>
     <ul class="w3-ul w3-card-4">
+
+      <li class="w3-bar" v-for="oink in oinks">
+        <article class="media">
+          <img :src="oink.avatar" class="w3-image w3-bar-item w3-hide-small" style="width:150px">
+        </article>
+        <div class="w3-bar-item">
+          <span class="w3-large">[[ oink.oinker ]]</span><br>
+          <span >[[ oink.body ]]</span><br>
+          <span class="w3-small">[[ oink.created_at ]] </span>
+        </div>
+      </li>
+
       {% for oink in oinks %}
         <li class="w3-bar">
+          {% if oink.created_by.oinkerprofile.avatar %}
+            <img src="{{ oink.created_by.oinkerprofile.avatar.url }}" class="w3-image w3-bar-item w3-hide-small" style="width:150px">
+          {% endif %}
           <div class="w3-bar-item">
             <span class="w3-large">{{ oink.created_by.username }}</span><br>
             <span >{{ oink.body }}</span><br>
@@ -30,13 +45,7 @@
           </div>
         </li>
       {% endfor %}
-      <li class="w3-bar" v-for="oink in oinks">
-        <div class="w3-bar-item">
-          <span class="w3-large">[[ oink.oinker ]]</span><br>
-          <span >[[ oink.body ]]</span><br>
-          <span class="w3-small">[[ oink.created_at ]] </span>
-        </div>
-      </li>
+     
     </ul>
   </div>
 </div>
@@ -52,7 +61,8 @@
         oinks: [],
         body: '',
         oinker: '{{ request.user.username }}',
-        created_at: 'Now'
+        created_at: 'Now',
+        avatar: '{% if request.user.oinkerprofile.avatar %}{{ request.user.oinkerprofile.avatar.url }}{% endif %}',
       }
     },
     methods: {
@@ -64,6 +74,7 @@
             'body': this.body,
             'oinker': this.oinker,
             'created_at': this.created_at,
+            'avatar': this.avatar,
           };
 
           this.oinks.unshift(oink);

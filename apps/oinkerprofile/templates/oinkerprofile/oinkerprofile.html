@@ -7,6 +7,11 @@
   <h1>Profile</h1>
   <div class="w3-container w3-card-4 w3-light-grey">
     <h2>{{ user.username }} </h2>
+    <article class="media">
+      {% if user.oinkerprofile.avatar %}
+        <img src="{{ user.oinkerprofile.avatar.url }}" class="w3-image" style="width:100px">
+      {% endif %}
+    </article>
     <p><a href="{% url 'followers' user.username %}">Followers: {{ user.oinkerprofile.followed_by.count }}</a></p>
     <p><a href="{% url 'follows' user.username %}">Follows: {{ user.oinkerprofile.follows.count }}</a></p>
     {% if user != request.user %}
@@ -22,6 +27,9 @@
     <ul class="w3-ul w3-card-4">
       {% for oink in user.oinks.all %}
          <li class="w3-bar">
+         {% if oink.created_by.oinkerprofile.avatar %}
+          <img src="{{ oink.created_by.oinkerprofile.avatar.url }}" class="w3-image w3-bar-item w3-hide-small" style="width:150px">
+         {% endif %}
           <div class="w3-bar-item">
             <span class="w3-large">{{ oink.created_by.username }}</span><br>
             <span >{{ oink.body }}</span><br>

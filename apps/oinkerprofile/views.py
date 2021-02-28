@@ -2,11 +2,35 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
+from .forms import OinkerProfileForm
+
 
 def oinkerprofile(request, username):
     user = get_object_or_404(User, username=username)
 
     return render(request, 'oinkerprofile/oinkerprofile.html', {'user': user})
+
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = OinkerProfileForm(
+            request.POST, request.FILES, instance=request.user.oinkerprofile)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect('oinkerprofile', username=request.user.username)
+
+    else:
+        form = OinkerProfileForm(instance=request.user.oinkerprofile)
+
+    context = {
+        'user': request.user,
+        'form': form
+    }
+
+    return render(request, 'oinkerprofile/edit_profile.html', context)
 
 
 @login_required

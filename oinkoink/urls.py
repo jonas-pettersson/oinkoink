@@ -1,10 +1,12 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views
 
 from apps.core.views import frontpage, signup
 from apps.feed.views import feed, search
-from apps.oinkerprofile.views import oinkerprofile, follow_oinker, unfollow_oinker, followers, follows
+from apps.oinkerprofile.views import oinkerprofile, edit_profile, follow_oinker, unfollow_oinker, followers, follows
 
 from apps.feed.api import api_add_oink
 
@@ -18,6 +20,7 @@ urlpatterns = [
 
     path('feed/', feed, name='feed'),
     path('search/', search, name='search'),
+    path('edit_profile/', edit_profile, name='edit_profile'),
     path('u/<str:username>/', oinkerprofile, name='oinkerprofile'),
     path('u/<str:username>/follow/', follow_oinker, name='follow_oinker'),
     path('u/<str:username>/unfollow/', unfollow_oinker, name='unfollow_oinker'),
@@ -27,4 +30,4 @@ urlpatterns = [
     path('api/add_oink/', api_add_oink, name='api_add_oink'),
 
     path('admin/', admin.site.urls),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

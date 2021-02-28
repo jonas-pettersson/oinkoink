@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+<div class="w3-container">
+  <h1>Edit Profile</h1>
+  <div class="w3-container w3-card-4 w3-light-grey">
+
+    <form action="." method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+        <fieldset class="form-group w3-border-0">
+          <ul class="w3-ul">
+          {% if user.oinkerprofile.avatar %}
+            <li>
+              <img src="{{ user.oinkerprofile.avatar.url }}" class="w3-image" style="width:100px">
+            </li>
+          {% endif %}
+            <li class="w3-border-0">
+                <label for="id_avatar">{{ form.avatar.label_tag }}</label>
+                <input class="w3-input w3-select" type="file" name="avatar" accept="image/*" id="id_avatar">
+            </li>
+            <li>
+              <button class="w3-button w3-green">Save</button>
+            </li>
+          </ul>
+        </fieldset>
+    
+    </form>
+
+  </div>
+</div>
+
+{% endblock content %}
