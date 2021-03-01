@@ -38,10 +38,16 @@
           {% if oink.created_by.oinkerprofile.avatar %}
             <img src="{{ oink.created_by.oinkerprofile.avatar.url }}" class="w3-image w3-bar-item w3-hide-small" style="width:150px">
           {% endif %}
-          <div class="w3-bar-item">
+          <div class="w3-bar-item" style="width:200px">
             <span class="w3-large">{{ oink.created_by.username }}</span><br>
-            <span >{{ oink.body }}</span><br>
+            <a class="w3-button w3-green" @click="likeOink({{ oink.id }})" v-if="!liked_oinks.includes({{ oink.id }})">Like</a>
+            <span v-if="liked_oinks.includes({{ oink.id }})">Liked</span>
+            <span class="w3-small" id="likes-{{ oink.id }}">{{ oink.likes.count }} likes</span><br>
             <span class="w3-small w3-text-grey">{{ oink.created_at|naturaltime }}</span>
+          </div>
+          <div class="w3-bar-item">
+            <span >{{ oink.body }}</span><br>
+            <br>
           </div>
         </li>
       {% endfor %}
@@ -63,9 +69,37 @@
         oinker: '{{ request.user.username }}',
         created_at: 'Now',
         avatar: '{% if request.user.oinkerprofile.avatar %}{{ request.user.oinkerprofile.avatar.url }}{% endif %}',
+        liked_oinks: [{% for oink in oinks %}{% if oink.liked %}{{ oink.id }},{% endif %}{% endfor %}],
       }
     },
     methods: {
+      likeOink(oink_id) {
+        this.liked_oinks.push(parseInt(oink_id));
+
+        var oink = {
+          'oink_id': oink_id
+        };
+
+        fetch('/api/add_like/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+          },
+          credentials: 'same-origin',
+          body: JSON.stringify(oink)
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+        const el = document.getElementById('likes-' + oink_id);
+        const likes = parseInt(el.innerHTML.split(' ')[0]) + 1;
+        el.innerHTML = likes + ' likes';
+      },
       submitOink() {
 
         if (this.body.length > 0) {

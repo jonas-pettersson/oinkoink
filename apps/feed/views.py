@@ -14,7 +14,12 @@ def feed(request):
 
     oinks = Oink.objects.filter(created_by_id__in=userids)
 
+    for oink in oinks:
+        likes = oink.likes.filter(created_by_id=request.user.id)
+        oink.liked = likes.count() > 0
+
     return render(request, 'feed/feed.html', {'oinks': oinks})
+
 
 @login_required
 def search(request):

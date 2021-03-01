@@ -25,16 +25,19 @@
 
   <div>
     <ul class="w3-ul w3-card-4">
-      {% for oink in user.oinks.all %}
+      {% for oink in oinks %}
          <li class="w3-bar">
          {% if oink.created_by.oinkerprofile.avatar %}
           <img src="{{ oink.created_by.oinkerprofile.avatar.url }}" class="w3-image w3-bar-item w3-hide-small" style="width:150px">
          {% endif %}
-          <div class="w3-bar-item">
+          <div class="w3-bar-item" style="width:200px">
             <span class="w3-large">{{ oink.created_by.username }}</span><br>
-            <span >{{ oink.body }}</span><br>
+            <span class="w3-small" id="likes-{{ oink.id }}">{{ oink.likes.count }} likes</span><br>
             <span class="w3-small w3-text-grey">{{ oink.created_at|naturaltime }}</span>
           </div>
+            <div class="w3-bar-item">
+              <span >{{ oink.body }}</span>
+            </div>
         </li>
       {% endfor %}
     </ul>

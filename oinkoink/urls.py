@@ -8,7 +8,7 @@ from apps.core.views import frontpage, signup
 from apps.feed.views import feed, search
 from apps.oinkerprofile.views import oinkerprofile, edit_profile, follow_oinker, unfollow_oinker, followers, follows
 
-from apps.feed.api import api_add_oink
+from apps.feed.api import api_add_oink, api_add_like
 
 urlpatterns = [
     path('', frontpage, name='frontpage'),
@@ -28,6 +28,7 @@ urlpatterns = [
     path('u/<str:username>/follows/', follows, name='follows'),
 
     path('api/add_oink/', api_add_oink, name='api_add_oink'),
+    path('api/add_like/', api_add_like, name='api_add_like'),
 
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

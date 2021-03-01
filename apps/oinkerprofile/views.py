@@ -8,7 +8,13 @@ from .forms import OinkerProfileForm
 def oinkerprofile(request, username):
     user = get_object_or_404(User, username=username)
 
-    return render(request, 'oinkerprofile/oinkerprofile.html', {'user': user})
+    oinks = user.oinks.all()
+
+    for oink in oinks:
+        likes = oink.likes.filter(created_by_id=request.user.id)
+        oink.liked = likes.count() > 0
+
+    return render(request, 'oinkerprofile/oinkerprofile.html', {'user': user, 'oinks': oinks})
 
 
 @login_required
