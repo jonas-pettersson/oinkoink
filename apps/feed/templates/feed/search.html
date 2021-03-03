@@ -28,14 +28,14 @@
     {% endif %}
 
     {% if oinkers %}
-      <strong>Oinkers</strong>
+      <h3 class="w3-padding">Oinkers</h3>
       {% for oinker in oinkers %}
         <a class="w3-bar-item w3-button w3-large w3-border" href="{% url 'oinkerprofile' oinker.username %}">{{ oinker.username }}</a>
       {% endfor %}
     {% endif %}
 
     {% if oinks %}
-      <strong>Oinks</strong>
+      <h3 class="w3-padding">Oinks</h3>
       {% for oink in oinks %}
         <a class="w3-bar-item w3-button w3-large w3-border" href="{% url 'oinkerprofile' oink.created_by.username %}">
             <div class="w3-cell" style="width:200px">
