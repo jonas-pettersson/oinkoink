@@ -1,0 +1,103 @@
+{% extends 'core/base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+<div class="w3-container" id="conversationapp">
+  <h1>Conversation</h1>
+  <div>
+    <ul class="w3-ul w3-card-4">
+        {% for message in conversation.messages.all %}
+            <li class="w3-bar w3-button">
+                {% if message.created_by.oinkerprofile.avatar %}
+                    <img src="{{ message.created_by.oinkerprofile.avatar.url }}" class="w3-image w3-bar-item w3-hide-small" style="width:150px" onclick="location.href='{% url 'oinkerprofile' message.created_by.username %}';">
+                {% endif %}
+                <div class="w3-bar-item" style="width:200px">
+                    <span class="w3-large">{{ message.created_by.username }}</span><br>
+                    <span class="w3-small w3-text-grey">{{ message.created_at|naturaltime }}</span><br>
+                </div>
+                <div class="w3-bar-item" onclick="location.href='{% url 'oinkerprofile' message.created_by.username %}';">
+                    <span >{{ message.content }}</span><br>
+                </div>
+            </li>
+        {% endfor %}
+        <li class="w3-bar w3-button" v-for="message in messages">
+            <img :src="message.avatar" class="w3-image w3-bar-item w3-hide-small" style="width:150px">
+            <div class="w3-bar-item" style="width:200px">
+                <span class="w3-large">[[ message.oinker]]</span><br>
+                <span class="w3-small w3-text-grey">[[ message.created_at ]]</span><br>
+            </div>
+            <div class="w3-bar-item">
+                <span >[[ message.content ]]</span><br>
+            </div>
+        </li>       
+    </ul>
+  </div>
+  <div class="w3-container w3-card-4 w3-light-grey">
+    <form v-on:submit.prevent="submitMessage()">
+        <fieldset class="form-group w3-border-0">
+          <ul class="w3-ul">
+            <li>
+              <textarea v-model="content" cols="100%" rows="10" placeholder="Your message"></textarea>
+            </li>
+            <li>
+              <button class="w3-button w3-green" type="submit">Send</button>
+            </li>
+          </ul>
+        </fieldset>
+    </form>
+  </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+  new Vue({
+    el: '#conversationapp',
+    delimiters: ['[[', ']]'],
+    data() {
+      return {
+        messages: [],
+        content: '',
+        oinker: '{{ request.user.username }}',
+        created_at: 'Now',
+        avatar: '{% if request.user.oinkerprofile.avatar %}{{ request.user.oinkerprofile.avatar.url }}{% endif %}',
+      }
+    },
+    methods: {
+      submitMessage() {
+
+        if (this.content.length > 0) {
+          var message = {
+            'content': this.content,
+            'oinker': this.oinker,
+            'created_at': this.created_at,
+            'avatar': this.avatar,
+            'conversation_id': '{{ conversation.id }}'
+          };
+
+          this.messages.unshift(message);
+
+          fetch('/api/add_message/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify(message)
+          })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        }
+
+        this.content = '';
+      }
+    }
+  })
+</script>
+{% endblock script %}

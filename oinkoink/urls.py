@@ -7,9 +7,10 @@ from django.contrib.auth import views
 from apps.core.views import frontpage, signup
 from apps.feed.views import feed, search
 from apps.oinkerprofile.views import oinkerprofile, edit_profile, follow_oinker, unfollow_oinker, followers, follows
-from apps.conversation.views import conversations
+from apps.conversation.views import conversations, conversation
 
 from apps.feed.api import api_add_oink, api_add_like
+from apps.conversation.api import api_add_message
 
 urlpatterns = [
     path('', frontpage, name='frontpage'),
@@ -23,14 +24,17 @@ urlpatterns = [
     path('search/', search, name='search'),
     path('edit_profile/', edit_profile, name='edit_profile'),
     path('conversations/', conversations, name='conversations'),
+    path('conversations/<int:user_id>/', conversation, name='conversation'),
     path('u/<str:username>/', oinkerprofile, name='oinkerprofile'),
     path('u/<str:username>/follow/', follow_oinker, name='follow_oinker'),
     path('u/<str:username>/unfollow/', unfollow_oinker, name='unfollow_oinker'),
     path('u/<str:username>/followers/', followers, name='followers'),
     path('u/<str:username>/follows/', follows, name='follows'),
 
+
     path('api/add_oink/', api_add_oink, name='api_add_oink'),
     path('api/add_like/', api_add_like, name='api_add_like'),
+    path('api/add_message/', api_add_message, name='api_add_message'),
 
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

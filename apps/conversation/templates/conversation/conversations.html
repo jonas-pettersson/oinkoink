@@ -11,9 +11,7 @@
             <li class="w3-bar w3-button">
                 {% for user in conversation.users.all %}
                     {% if user != request.user %}
-                        <div class="w3-bar-item" style="width:200px">
-                            <span>{{ user.username }} - {{ conversation.modified_at|naturaltime }}</span>
-                        </div>
+                        <a class="w3-bar-item w3-button" href="{% url 'conversation' conversation.id %}">{{ user.username }} - {{ conversation.modified_at|naturaltime }}</a>
                     {% endif %}
                 {% endfor %}
             </li>
