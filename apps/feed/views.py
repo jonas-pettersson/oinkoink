@@ -27,12 +27,15 @@ def search(request):
 
     if len(query) > 0:
         oinkers = User.objects.filter(username__icontains=query)
+        oinks = Oink.objects.filter(body__icontains=query)
     else:
         oinkers = []
+        oinks = []
 
     context = {
         'query': query,
-        'oinkers': oinkers
+        'oinkers': oinkers,
+        'oinks': oinks
     }
 
     return render(request, 'feed/search.html', context)

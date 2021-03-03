@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+<div class="w3-container" id="feedapp">
+  <h1>Conversations</h1>
+  <div>
+    <ul class="w3-ul w3-card-4">
+        {% for conversation in conversations %}
+            <li class="w3-bar w3-button">
+                {% for user in conversation.users.all %}
+                    {% if user != request.user %}
+                        <div class="w3-bar-item" style="width:200px">
+                            <span>{{ user.username }} - {{ conversation.modified_at|naturaltime }}</span>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </li>
+        {% empty %}
+            <p>No conversations!</p>
+        {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock content %}

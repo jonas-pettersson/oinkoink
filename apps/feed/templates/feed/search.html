@@ -1,5 +1,7 @@
 {% extends 'core/base.html' %}
 
+{% load humanize %}
+
 {% block content %}
 <div class="w3-container">
   <h1>Search</h1>
@@ -21,9 +23,32 @@
   </div>
 
   <div class="w3-bar-block w3-card-4">
-    {% for oinker in oinkers %}
-      <a class="w3-bar-item w3-button w3-large w3-border" href="{% url 'oinkerprofile' oinker.username %}">{{ oinker.username }}</a>
-    {% endfor %}
+    {% if not oinkers and not oinks %}
+      <p>No results, please try a different search term...</p>
+    {% endif %}
+
+    {% if oinkers %}
+      <strong>Oinkers</strong>
+      {% for oinker in oinkers %}
+        <a class="w3-bar-item w3-button w3-large w3-border" href="{% url 'oinkerprofile' oinker.username %}">{{ oinker.username }}</a>
+      {% endfor %}
+    {% endif %}
+
+    {% if oinks %}
+      <strong>Oinks</strong>
+      {% for oink in oinks %}
+        <a class="w3-bar-item w3-button w3-large w3-border" href="{% url 'oinkerprofile' oink.created_by.username %}">
+            <div class="w3-cell" style="width:200px">
+              <span class="w3-large">{{ oink.created_by.username }}</span><br>
+              <span class="w3-small w3-text-grey">{{ oink.created_at|naturaltime }}</span>
+            </div>
+            <div class="w3-cell">
+              <span>{{ oink.body }}</span>
+            </div>
+        </a>
+      {% endfor %}
+    {% endif %}
+
   </div>
 </div>
 {% endblock content %}

@@ -22,32 +22,33 @@
   <div>
     <ul class="w3-ul w3-card-4">
 
-      <li class="w3-bar" v-for="oink in oinks">
+      <li class="w3-bar w3-button" v-for="oink in oinks" onclick="location.href='{% url 'oinkerprofile' request.user.username %}';">
         <article class="media">
           <img :src="oink.avatar" class="w3-image w3-bar-item w3-hide-small" style="width:150px">
         </article>
-        <div class="w3-bar-item">
+        <div class="w3-bar-item" style="width:200px">
           <span class="w3-large">[[ oink.oinker ]]</span><br>
-          <span >[[ oink.body ]]</span><br>
-          <span class="w3-small">[[ oink.created_at ]] </span>
+          <span class="w3-small w3-text-grey">[[ oink.created_at ]] </span>
+        </div>
+        <div class="w3-bar-item">
+          <span>[[ oink.body ]]</span>
         </div>
       </li>
 
       {% for oink in oinks %}
-        <li class="w3-bar">
+        <li class="w3-bar w3-button">
           {% if oink.created_by.oinkerprofile.avatar %}
-            <img src="{{ oink.created_by.oinkerprofile.avatar.url }}" class="w3-image w3-bar-item w3-hide-small" style="width:150px">
+            <img src="{{ oink.created_by.oinkerprofile.avatar.url }}" class="w3-image w3-bar-item w3-hide-small" style="width:150px" onclick="location.href='{% url 'oinkerprofile' oink.created_by.username %}';">
           {% endif %}
           <div class="w3-bar-item" style="width:200px">
             <span class="w3-large">{{ oink.created_by.username }}</span><br>
-            <a class="w3-button w3-green" @click="likeOink({{ oink.id }})" v-if="!liked_oinks.includes({{ oink.id }})">Like</a>
+            <span class="w3-small w3-text-grey">{{ oink.created_at|naturaltime }}</span><br>
+            <a class="w3-button w3-green" @click.once="likeOink({{ oink.id }})" v-if="!liked_oinks.includes({{ oink.id }})">Like</a>
             <span v-if="liked_oinks.includes({{ oink.id }})">Liked</span>
-            <span class="w3-small" id="likes-{{ oink.id }}">{{ oink.likes.count }} likes</span><br>
-            <span class="w3-small w3-text-grey">{{ oink.created_at|naturaltime }}</span>
+            <span class="w3-small" id="likes-{{ oink.id }}">{{ oink.likes.count }} likes</span>
           </div>
-          <div class="w3-bar-item">
+          <div class="w3-bar-item" onclick="location.href='{% url 'oinkerprofile' oink.created_by.username %}';">
             <span >{{ oink.body }}</span><br>
-            <br>
           </div>
         </li>
       {% endfor %}

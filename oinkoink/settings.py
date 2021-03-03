@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'apps.core',
     'apps.oinkerprofile',
     'apps.feed',
+    'apps.conversation',
 ]
 
 MIDDLEWARE = [
