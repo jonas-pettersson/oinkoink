@@ -44,10 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django.contrib.staticfiles',
 
-    'apps.core',
-    'apps.oinkerprofile',
-    'apps.feed',
     'apps.conversation',
+    'apps.core',
+    'apps.feed',
+    'apps.oinkerprofile',
+    'apps.notification',
 ]
 
 MIDDLEWARE = [
