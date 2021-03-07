@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+<div class="w3-container">
+  <h1>Notifications</h1>
+   <div class="w3-bar-block w3-card-4">
+    {% if not notifications %}
+      <p>You have no notifications!</p>
+    {% else %}
+        <ul class="w3-ul w3-card-4">
+        {% for notification in notifications %}
+            <li class="w3-bar w3-button">
+            {% if notification.created_by.oinkerprofile.avatar %}
+                <img src="{{ notification.created_by.oinkerprofile.avatar.url }}" class="w3-image w3-bar-item w3-hide-small" style="width:150px" onclick="location.href='{% url 'oinkerprofile' notification.created_by.username %}';">
+            {% endif %}
+            {% if notification.notification_type == 'message' %}
+                <div class="w3-bar-item" onclick="location.href='{% url 'notifications' %}?goto=conversation&notification={{ notification.id }} ';">
+                    <span class="w3-large">{{ notification.created_by.username }} sent you a message</span><br>
+                    <span class="w3-small w3-text-grey">{{ notification.created_at|naturaltime }}</span><br>
+                </div>
+            {% elif notification.notification_type == 'follower' %}
+                <div class="w3-bar-item" onclick="location.href='{% url 'notifications' %}?goto=oinkerprofile&notification={{ notification.id }} ';">
+                    <span class="w3-large">{{ notification.created_by.username }} started following you</span><br>
+                    <span class="w3-small w3-text-grey">{{ notification.created_at|naturaltime }}</span><br>
+                </div>
+            {% elif notification.notification_type == 'like' %}
+                <div class="w3-bar-item" onclick="location.href='{% url 'notifications' %}?goto=oinkerprofile&notification={{ notification.id }} ';">
+                    <span class="w3-large">{{ notification.created_by.username }} liked an oink you wrote</span><br>
+                    <span class="w3-small w3-text-grey">{{ notification.created_at|naturaltime }}</span><br>
+                </div>
+            {% endif %}
+            </li>
+      {% endfor %}
+    {% endif %}
+
+  </div>
+</div>
+{% endblock content %}
