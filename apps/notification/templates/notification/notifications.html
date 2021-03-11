@@ -30,6 +30,11 @@
                     <span class="w3-large">{{ notification.created_by.username }} liked an oink you wrote</span><br>
                     <span class="w3-small w3-text-grey">{{ notification.created_at|naturaltime }}</span><br>
                 </div>
+            {% elif notification.notification_type == 'mention' %}
+                <div class="w3-bar-item" onclick="location.href='{% url 'notifications' %}?goto=oinkerprofile&notification={{ notification.id }} ';">
+                    <span class="w3-large">{{ notification.created_by.username }} mentioned you in an oink</span><br>
+                    <span class="w3-small w3-text-grey">{{ notification.created_at|naturaltime }}</span><br>
+                </div>
             {% endif %}
             </li>
       {% endfor %}
